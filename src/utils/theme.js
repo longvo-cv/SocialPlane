@@ -65,6 +65,11 @@ export default {
     },
     deleteTitle: {
       color: '#c5c6c7'
+    },
+    deleteButton: {
+      position: 'absolute',
+      left: '90%',
+      top: '12%'
     }
   }
 };
