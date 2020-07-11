@@ -4,7 +4,8 @@ import {
   CLEAR_ERRORS,
   LOADING_UI,
   SET_UNAUTHENTICATED,
-  LOADING_USER
+  LOADING_USER,
+  MARK_NOTIFICATIONS_RED
 } from '../types';
 import axios from 'axios';
 export const loginUser = (userData, history) => (dispatch) => {
@@ -82,6 +83,14 @@ export const editUserDetails = (userDetails) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
+export const markNotificationsRed = (notiId) => (dispatch) => {
+  axios
+    .post(`/notifications`, notiId)
+    .then((res) => {
+      dispatch({ type: MARK_NOTIFICATIONS_RED });
+    })
+    .catch((err) => console.log(err));
+};
 const setAuthHeader = (token) => {
   const FBIdToken = `Bearer ${token}`;
   localStorage.setItem('FBIdToken', FBIdToken);

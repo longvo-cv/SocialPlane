@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
-import MyButton from '../utils/MyButton';
+import MyButton from '../../utils/MyButton';
 import EditDetails from './EditDetails';
+import ProfileSkeleton from '../../utils/ProfileSkeleton';
 //MUI
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
@@ -17,58 +18,11 @@ import EditIcon from '@material-ui/icons/Edit';
 import KeyboardReturn from '@material-ui/icons/KeyboardReturn';
 
 import { connect } from 'react-redux';
-import { logoutUser, uploadImage } from '../redux/actions/userActions';
+import { logoutUser, uploadImage } from '../../redux/actions/userActions';
 
 
 const styles = (theme) => ({
-  paper: {
-    padding: 20,
-    /*background:'#1f2833' */
-    background: '#1f2833' ,
-    color:'#C5C6C7'
-  },
-  profile: {
-    '& .image-wrapper': {
-      textAlign: 'center',
-      position: 'relative',
-      '& button': {
-        position: 'absolute',
-        top: '80%',
-        left: '70%'
-      }
-    },
-    '& .profile-image': {
-      width: 200,
-      height: 200,
-      objectFit: 'cover',
-      maxWidth: '100%',
-      borderRadius: '50%'
-    },
-    '& .profile-details': {
-      textAlign: 'center',
-      '& span, svg': {
-        verticalAlign: 'middle'
-      },
-      '& a': {
-        color: '#45A29E'
-      }
-    },
-    '& hr': {
-      border: 'none',
-      margin: '0 0 10px 0'
-    },
-    '& svg.button': {
-      '&:hover': {
-        cursor: 'pointer'
-      }
-    }
-  },
-  buttons: {
-    textAlign: 'center',
-    '& a': {
-      margin: '20px 10px'
-    }
-  }
+  ...theme.spreadThis
 });
 class Profile extends Component {
   handleImage = (event) => {
@@ -135,7 +89,7 @@ class Profile extends Component {
               {website && (
                 <Fragment>
                   <LinkIcon color='secondary' />
-                  <a href={website} target='_blank' rel='noopner noreferrer'>
+                  <a href={website} target='_blank' rel='noopener noreferrer'>
                     {' '}
                     {website}
                   </a>
@@ -177,7 +131,7 @@ class Profile extends Component {
         </Paper>
       )
     ) : (
-      <p>Loading</p>
+      <ProfileSkeleton/>
     );
 
     return profileMarkup;

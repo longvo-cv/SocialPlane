@@ -4,7 +4,8 @@ import {
   SET_UNAUTHENTICATED,
   LOADING_USER,
   LIKE_POST,
-  UNLIKE_POST
+  UNLIKE_POST,
+  MARK_NOTIFICATIONS_RED
 } from '../types';
 
 const initState = {
@@ -37,20 +38,24 @@ export default function(state = initState, action) {
     case LIKE_POST:
       return {
         ...state,
-        likes:[
+        likes: [
           ...state.likes,
           {
-            userHandle:state.credentials.handle,
+            userHandle: state.credentials.handle,
             postId: action.payload.postId
           }
         ]
-
       };
     case UNLIKE_POST:
       return {
         ...state,
-        likes:state.likes.filter(like=> like.postId !== action.payload.postId)
+        likes: state.likes.filter(
+          (like) => like.postId !== action.payload.postId
+        )
       };
+    case MARK_NOTIFICATIONS_RED:
+      state.notifications.forEach((noti) => (noti.read = true));
+      return { ...state };
     default:
       return state;
   }

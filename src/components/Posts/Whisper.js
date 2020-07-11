@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import MyButton from '../utils/MyButton';
-import { likePost, unlikePost } from '../redux/actions/dataActions';
+import MyButton from '../../utils/MyButton';
 import { Link } from 'react-router-dom';
+import LikeButton from './LikeButton';
 //Mui card
 import Card from '@material-ui/core/Card';
 
@@ -13,9 +13,9 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import dayjs from 'dayjs';
 import ChatIcon from '@material-ui/icons/Chat';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import DeletePost from './DeletePost'
+import DeletePost from './DeletePost';
+
+import PostDialog from './PostDialog';
 var relativeTime = require('dayjs/plugin/relativeTime');
 
 const styles = {
@@ -32,28 +32,9 @@ const styles = {
   content: {
     padding: 25,
     objectFit: 'cover'
-  },
-  dateColor: {
-    color: '$45a29e'
   }
 };
 class Whisper extends Component {
-  likedPost = () => {
-    if (
-      this.props.user.likes &&
-      this.props.user.likes.find(
-        (like) => like.postId === this.props.whisper.postId
-      )
-    )
-      return true;
-    else return false;
-  };
-  likePost = () => {
-    this.props.likePost(this.props.whisper.postId);
-  };
-  unlikePost = () => {
-    this.props.unlikePost(this.props.whisper.postId);
-  };
   render() {
     dayjs.extend(relativeTime);
     const {
@@ -67,27 +48,16 @@ class Whisper extends Component {
         likeCount,
         commentCount
       },
-      user: { authenticated,credentials:{handle} }
+      user: {
+        authenticated,
+        credentials: { handle }
+      }
     } = this.props;
-    const deleteButton = authenticated && userHandle === handle  ? (
-      <DeletePost postId = {postId}/>
-    ) : 
-    null
-    const likeButton = !authenticated ? (
-      <Link to='/login'>
-        <MyButton tip='Like'>
-          <FavoriteBorderIcon color='secondary' />
-        </MyButton>
-      </Link>
-    ) : this.likedPost() ? (
-      <MyButton tip='Undo like' onClick={this.unlikePost}>
-        <FavoriteIcon color='secondary' />
-      </MyButton>
-    ) : (
-      <MyButton tip='Like' onClick={this.likePost}>
-        <FavoriteBorderIcon color='secondary' />
-      </MyButton>
-    );
+    const deleteButton =
+      authenticated && userHandle === handle ? (
+        <DeletePost postId={postId} />
+      ) : null;
+
     return (
       <Card className={classes.card}>
         <CardMedia
@@ -111,33 +81,31 @@ class Whisper extends Component {
           </Typography>
 
           <Typography variant='body1'>{body}</Typography>
-          {likeButton}
+          <LikeButton postId={postId} />
           <span>{likeCount} likes</span>
           <MyButton tip='comments'>
             <ChatIcon color='secondary' />
           </MyButton>
 
           <span>{commentCount} comments</span>
+          <PostDialog
+            postId={postId}
+            userHandle={userHandle}
+            openDialog={this.props.openDialog}
+          />
         </CardContent>
       </Card>
     );
   }
 }
 Whisper.propTypes = {
-  likePost: PropTypes.func.isRequired,
-  unlikePost: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   whisper: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  openDialog:PropTypes.bool
 };
 const mapStateToProps = (state) => ({
   user: state.user
 });
-const mapActionsToProps = {
-  likePost,
-  unlikePost
-};
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(withStyles(styles)(Whisper));
+
+export default connect(mapStateToProps)(withStyles(styles)(Whisper));

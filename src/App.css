@@ -4,7 +4,7 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   /* background-color: rgb(245, 245, 245); */
-  background-color:#0b0c10;
+  background-color: #0b0c10;
 }
 .container {
   margin: 80px auto 0 auto;
@@ -14,7 +14,7 @@ body {
   margin: auto;
 }
 .nav-container svg {
-  color: #66FCF1;
+  color: #66fcf1;
 }
 a {
   text-decoration: none;

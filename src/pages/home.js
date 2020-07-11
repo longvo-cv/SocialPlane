@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-import Whisper from '../components/Whisper';
-import Profile from '../components/Profile';
+import Whisper from '../components/Posts/Whisper';
+import Profile from '../components/Profile/Profile';
 import { connect } from 'react-redux';
 import { getPosts } from '../redux/actions/dataActions';
 import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
+import PostSkeleton from '../utils/PostSkeleton'
+
+
 class home extends Component {
   componentDidMount() {
     this.props.getPosts();
@@ -15,13 +17,14 @@ class home extends Component {
     let recentPosts = !loading ? (
       posts.map((post) => <Whisper key={post.postId} whisper={post} />)
     ) : (
-      <Typography variant='subtitle2' color='secondary'>
+      <PostSkeleton/>
+    /*   <Typography variant='subtitle2' color='secondary'>
         Loading...
-      </Typography>
+      </Typography> */
     );
     //console.log(posts);
     return (
-      <Grid container spacing={10}>
+      <Grid container spacing={3}>
         <Grid item sm={8} xs={10}>
           {recentPosts}
         </Grid>

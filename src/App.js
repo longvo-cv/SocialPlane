@@ -7,12 +7,12 @@ import signup from './pages/signup';
 import login from './pages/login';
 import jwtDecode from 'jwt-decode';
 //Components
-import Navbar from './components/Navbar';
+import Navbar from './components/Layout/Navbar';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import themeFile from './utils/theme';
 import AuthRoute from './utils/AuthRoute';
-
+import user from './pages/user';
 //Redux
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -21,7 +21,8 @@ import { logoutUser, getUserData } from './redux/actions/userActions';
 
 const theme = createMuiTheme(themeFile);
 const token = localStorage.FBIdToken;
-
+axios.defaults.baseURL =
+  'https://us-central1-social-app-d3e5e.cloudfunctions.net/api';
 if (token) {
   const decodedToken = jwtDecode(token);
   if (decodedToken.exp * 1000 < Date.now()) {
@@ -41,9 +42,15 @@ function App() {
           <Navbar />
           <div className='container'>
             <Switch>
-              <Route      exact path='/' component={home} />
+              <Route exact path='/' component={home} />
               <AuthRoute exact path='/login' component={login} />
               <AuthRoute exact path='/signup' component={signup} />
+              <Route exact path='/users/:handle' component={user} />
+              <Route
+                exact
+                path='/users/:handle/post/:postId'
+                component={user}
+              />
             </Switch>
           </div>
         </Router>

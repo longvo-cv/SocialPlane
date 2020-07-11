@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import MyButton from '../utils/MyButton';
-import { deletePost } from '../redux/actions/dataActions';
+import MyButton from '../../utils/MyButton';
+import { deletePost } from '../../redux/actions/dataActions';
 //MUI
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';

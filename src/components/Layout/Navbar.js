@@ -3,15 +3,16 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import AddPost from '../Posts/AddPost';
+import Notifications from './Notifications'
 // Material UI
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
 import HomeIcon from '@material-ui/icons/Home';
-import Notifications from '@material-ui/icons/Notifications';
+//import Notifications from '@material-ui/icons/Notifications';
 
-import MyButton from '../utils/MyButton';
+import MyButton from '../../utils/MyButton';
 class Navbar extends Component {
   render() {
     const { authenticated } = this.props;
@@ -20,17 +21,15 @@ class Navbar extends Component {
         <Toolbar className='nav-container'>
           {authenticated ? (
             <Fragment>
-              <MyButton tip='Create a post'>
-                <AddIcon color='secondary' />
-              </MyButton>
+              <AddPost />
               <Link to='/'>
                 <MyButton tip='Home'>
                   <HomeIcon color='secondary' />
                 </MyButton>
               </Link>
-              <MyButton tip='Notifications'>
+             
                 <Notifications color='secondary' />
-              </MyButton>
+              
             </Fragment>
           ) : (
             <Fragment>

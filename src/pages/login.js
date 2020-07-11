@@ -15,7 +15,10 @@ import { connect } from 'react-redux';
 import { loginUser } from '../redux/actions/userActions';
 
 const styles = (theme) => ({
-  ...theme.spreadThis
+  ...theme.spreadThis,
+  loadingIcon: {
+    color: '#66FCF1'
+  }
 });
 
 class login extends Component {
